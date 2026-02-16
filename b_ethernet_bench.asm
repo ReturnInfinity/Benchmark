@@ -2,7 +2,7 @@
 ; Written by Ian Seyler
 ;
 ; BareMetal compile:
-; nasm sys_test.asm -o sys_test.app
+; nasm b_ethernet_bench.asm -o b_ethernet_bench.app
 
 [BITS 64]
 DEFAULT ABS
@@ -10,8 +10,11 @@ DEFAULT ABS
 %INCLUDE "libBareMetal.asm"
 
 start:					; Start of program label
-	; Number of iterations
-	mov r15, 1000000
+
+	; Set variables
+	mov r15, 1000000		; Number of iterations
+	mov r12, r15			; Iteration decrement counter
+	xor r11, r11			; Packets received
 
 	; Display iterations
 	lea rsi, [rel msg_start]
@@ -21,10 +24,6 @@ start:					; Start of program label
 	call os_int_to_string
 	mov rsi, msg_val
 	call output
-
-	; Set variables
-	mov r12, r15			; Iteration decrement counter
-	xor r11, r11			; Packets received
 
 	; Gather start time in ns since system start
 	mov ecx, TIMECOUNTER
@@ -40,8 +39,7 @@ bench_loop:
 ;-------------------------
 
 	dec r12				; Decrement iterations counter
-	cmp r12, 0			; 0 yet?
-	jne bench_loop			; If not, continue loop
+	jnz bench_loop			; If not, continue loop
 
 	; Gather end time in ns since system start
 	mov ecx, TIMECOUNTER
@@ -75,12 +73,6 @@ bench_loop:
 	call output
 
 	ret
-
-error:
-	lea rsi, [rel msg_err]
-	call output
-	ud2				; Dump registers
-	ret				; Return to OS
 
 
 ; -----------------------------------------------------------------------------
@@ -124,6 +116,7 @@ os_int_to_string_next_digit:
 	ret
 ; -----------------------------------------------------------------------------
 
+
 ; -----------------------------------------------------------------------------
 ; os_string_length -- Return length of a string
 ;  IN:	RSI = string location
@@ -147,6 +140,7 @@ os_string_length:
 	ret
 ; -----------------------------------------------------------------------------
 
+
 ; -----------------------------------------------------------------------------
 output:
 	push rcx
@@ -161,5 +155,4 @@ msg_start: db "Iterations: ", 0
 msg_avg: db 13, 10, "Average: ", 0
 msg_ns: db " ns", 0
 msg_bytes: db 13, 10, "Bytes received: ", 0
-msg_err: db "err", 0
 msg_val: db 0

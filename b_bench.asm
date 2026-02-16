@@ -2,7 +2,7 @@
 ; Written by Ian Seyler
 ;
 ; BareMetal compile:
-; nasm sys_test.asm -o sys_test.app
+; nasm b_bench.asm -o b_bench.app
 
 [BITS 64]
 DEFAULT ABS
@@ -10,9 +10,12 @@ DEFAULT ABS
 %INCLUDE "libBareMetal.asm"
 
 start:					; Start of program label
-	; Number of iterations
-	mov r11, 1000000
 
+	; Set variables
+	mov r11, 1000000		; Number of iterations
+	mov r12, r11			; Iteration decrement counter
+
+	; Display iterations
 	lea rsi, [rel msg_start]
 	call output
 	mov rax, r11
@@ -21,10 +24,7 @@ start:					; Start of program label
 	mov rsi, msg_val
 	call output
 
-	mov r12, r11			; Iterations
-	xor r14, r14			; Cumulative time
-
-	; Gather start time of iteration
+	; Gather start time of loop
 	mov ecx, TIMECOUNTER
 	call [b_system]
 	mov r8, rax			; t0
@@ -42,16 +42,15 @@ loop1:
 	cpuid
 ;-------------------------
 	dec r12
-	cmp r12, 0
-	jne loop1
+	jnz loop1
 
-	; Gather end time of iteration
+	; Gather end time of loop
 	mov ecx, TIMECOUNTER
 	call [b_system]
 	mov r9, rax			; t1
 
 	; Calculate elapsed time
-	sub r9, r8			; end time (t1) - start time (t0)
+	sub r9, r8			; elapsed = end time (t1) - start time (t0)
 
 	; Divide cumulative time by iterations
 	xor edx, edx
@@ -60,7 +59,7 @@ loop1:
 	div rcx				; RDX:RAX / RCX (quotient in RAX, remainder in RDX)
 	push rax
 
-
+	; Display average
 	lea rsi, [rel msg_avg]
 	call output
 	pop rax
@@ -72,12 +71,6 @@ loop1:
 	call output
 
 	ret
-
-error:
-	lea rsi, [rel msg_err]
-	call output
-	ud2				; Dump registers
-	ret				; Return to OS
 
 
 ; -----------------------------------------------------------------------------
@@ -121,6 +114,7 @@ os_int_to_string_next_digit:
 	ret
 ; -----------------------------------------------------------------------------
 
+
 ; -----------------------------------------------------------------------------
 ; os_string_length -- Return length of a string
 ;  IN:	RSI = string location
@@ -144,6 +138,7 @@ os_string_length:
 	ret
 ; -----------------------------------------------------------------------------
 
+
 ; -----------------------------------------------------------------------------
 output:
 	push rcx
@@ -157,5 +152,4 @@ output:
 msg_start: db "Iterations: ", 0
 msg_avg: db 13, 10, "Average: ", 0
 msg_ns: db " ns", 0
-msg_err: db "err", 0
 msg_val: db 0
