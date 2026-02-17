@@ -118,7 +118,7 @@ Specs:
 - [AMD Ryzen 7 7700X](https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7700x.html) - Zen 4 (Raphael) - 8 cores, base 4.50GHz, boost 5.40GHz
 - [ASUS PRIME B650M-A II](https://www.asus.com/motherboards-components/motherboards/csm/prime-b650m-a-ii-csm/)
 - 16GiB RAM (1x 16GiB DDR5) - Max 128GiB
-- 128GB NVMe (Patriot)
+- 240GB SATA (Kingston)
 - Intel X540-T1 10Gbit network card (NICGIGA)
 - Internal network adaptor disabled in BIOS
 
@@ -226,6 +226,7 @@ Specs:
 - [Intel® Core™ i5-12400](https://ark.intel.com/content/www/us/en/ark/products/134586/intel-core-i5-12400-processor-18m-cache-up-to-4-40-ghz.html) - Alder Lake - 6 cores, base 2.50GHz, boost 4.40GHz
 - [ASUS PRIME B760M-A AX](https://www.asus.com/us/motherboards-components/motherboards/prime/prime-b760m-a-ax/)
 - 16GiB RAM (1x 16GiB DDR5) - Max 128GiB
+- 128GB NVMe (Patriot)
 - Intel X540-T1 10Gbit network card (Beijing Sinead)
 - Internal network adaptors disabled in BIOS
 
