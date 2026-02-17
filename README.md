@@ -5,6 +5,12 @@ Apps in this repo:
 - `l_bench.c` / `b_bench.asm` - Run `cpuid` 1000000 times. This should have similar results compared to running on Linux or BareMetal as `cpuid` is an "expensive" instruction.
 - `l_ethernet_bench.c` / `b_ethernet_bench.asm` - Poll the network 1000000 times. The Linux version is pinned to a single CPU core to prevent additional delays. This isn't needed in BareMetal.
 
+- [netflood](https://github.com/IanSeyler/netflood)
+`./netflood enp1s0`
+
+All Debian systems were installed without the "Debian desktop environment" and "GNOME". "SSH server" was added.
+
+`apt install git gcc nasm`
 
 # Virtual via KVM
 
@@ -19,21 +25,21 @@ Physical system for testing is as follows:
 
 Executing `cpuid` instruction in a loop.
 
-### Linux (Ubuntu 25.10)
+### Linux (Debian 13.3.0)
 
-```qemu-system-x86_64 -machine q35 -name "Ubuntu 25.10" -smp sockets=1,cpus=4 -cpu host -enable-kvm -m 4096 -drive id=disk0,file=ubuntu2510.img,if=none,format=raw -device virtio-scsi-pci -device scsi-hd,drive=disk0```
+```qemu-system-x86_64 -machine q35 -name "Debian 13.3.0" -smp sockets=1,cpus=4 -cpu host -enable-kvm -m 4096 -drive id=disk0,file=debian1330.img,if=none,format=raw -device virtio-scsi-pci -device scsi-hd,drive=disk0```
 
 ```
-ian@ubuntu2510:~/Code/Testing$ ./l_bench
+ian@debian-vm:~/Code/Testing$ ./l_bench
 Iterations: 1000000
-Average: 2270.05 ns
-ian@ubuntu2510:~/Code/Testing$ ./l_bench
+Average: 2141.71 ns
+ian@debian-vm:~/Code/Testing$ ./l_bench
 Iterations: 1000000
-Average: 2269.85 ns
-ian@ubuntu2510:~/Code/Testing$ ./l_bench
+Average: 2143.63 ns
+ian@debian-vm:~/Code/Testing$ ./l_bench
 Iterations: 1000000
-Average: 2286.01 ns
-ian@ubuntu2510:~/Code/Testing$
+Average: 2129.82 ns
+ian@debian-vm:~/Code/Testing$
 ```
 
 ### BareMetal (2026.01)
@@ -63,26 +69,26 @@ This verified that the benchmarking tool is working correctly on both Linux and 
 
 Executing relevant function for reading Ethernet packets.
 
-### Linux (Ubuntu 25.10)
+### Linux (Debian 13.3.0)
 
 Testing was done against the `virtio-net-pci` interface (enp0s4).
 
-```qemu-system-x86_64 -machine q35 -name "Ubuntu 25.10" -smp sockets=1,cpus=4 -cpu host -enable-kvm -m 4096 -drive id=disk0,file=ubuntu2510.img,if=none,format=raw -device virtio-scsi-pci -device scsi-hd,drive=disk0 -netdev user,id=nat0 -device e1000,netdev=nat0 -netdev socket,id=priv0,listen=:12345 -device virtio-net-pci,netdev=priv0```
+```qemu-system-x86_64 -machine q35 -name "Debian 13.3.0" -smp sockets=1,cpus=4 -cpu host -enable-kvm -m 4096 -drive id=disk0,file=debian1330.img,if=none,format=raw -device virtio-scsi-pci -device scsi-hd,drive=disk0 -netdev user,id=nat0 -device e1000,netdev=nat0 -netdev socket,id=priv0,listen=:12345 -device virtio-net-pci,netdev=priv0```
 
 ```
-ian@ubuntu2510:~/Code/Testing$ sudo ./l_ethernet_bench enp0s4 -n 1000000
+root@debian-vm:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp0s4 -n 1000000
 Iterations: 1000000
-Average: 120.82 ns
+Average: 107.87 ns
 Bytes received: 0
-ian@ubuntu2510:~/Code/Testing$ sudo ./l_ethernet_bench enp0s4 -n 1000000
+root@debian-vm:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp0s4 -n 1000000
 Iterations: 1000000
-Average: 121.37 ns
+Average: 111.37 ns
 Bytes received: 0
-ian@ubuntu2510:~/Code/Testing$ sudo ./l_ethernet_bench enp0s4 -n 1000000
+root@debian-vm:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp0s4 -n 1000000
 Iterations: 1000000
-Average: 120.36 ns
+Average: 108.34 ns
 Bytes received: 0
-ian@ubuntu2510:~/Code/Testing$
+root@debian-vm:/home/ian/Code/Benchmark$
 ```
 
 ### BareMetal (2026.01)
@@ -122,16 +128,16 @@ Specs:
 ### Linux (Debian 13.3.0)
 
 ```
-ian@amd:~/Code/Testing$ ./l_bench
+ian@debian-amd:~/Code/Benchmark$ ./l_bench
 Iterations: 1000000
 Average: 28.51 ns
-ian@amd:~/Code/Testing$ ./l_bench
+ian@debian-amd:~/Code/Benchmark$ ./l_bench
 Iterations: 1000000
 Average: 27.99 ns
-ian@amd:~/Code/Testing$ ./l_bench
+ian@debian-amd:~/Code/Benchmark$ ./l_bench
 Iterations: 1000000
 Average: 28.11 ns
-ian@amd:~/Code/Testing$
+ian@debian-amd:~/Code/Benchmark$
 ```
 
 ### BareMetal (2026.01)
@@ -155,23 +161,45 @@ Average: 27 ns
 
 ### Linux (Debian 13.3.0)
 
+#### No load
+
 ```
-ian@amd:~/Code/Testing$ sudo ./l_ethernet_bench enp1s0 -n 1000000
+root@debian-amd:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp1s0 -n 1000000
 Iterations: 1000000
 Average: 187.04 ns
 Bytes received: 0
-ian@amd:~/Code/Testing$ sudo ./l_ethernet_bench enp1s0 -n 1000000
+root@debian-amd:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp1s0 -n 1000000
 Iterations: 1000000
 Average: 187.50 ns
 Bytes received: 0
-ian@amd:~/Code/Testing$ sudo ./l_ethernet_bench enp1s0 -n 1000000
+root@debian-amd:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp1s0 -n 1000000
 Iterations: 1000000
 Average: 187.28 ns
 Bytes received: 0
-ian@amd:~/Code/Testing$
+root@debian-amd:/home/ian/Code/Benchmark$
+```
+
+#### Load
+
+```
+root@debian-amd:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp1s0 -n 1000000
+Iterations: 1000000
+Average: 262.24 ns
+Bytes received: 322479000
+root@debian-amd:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp1s0 -n 1000000
+Iterations: 1000000
+Average: 261.95 ns
+Bytes received: 322227000
+root@debian-amd:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp1s0 -n 1000000
+Iterations: 1000000
+Average: 262.30 ns
+Bytes received: 322746000
+root@debian-amd:/home/ian/Code/Benchmark$
 ```
 
 ### BareMetal (2026.01)
+
+#### No load
 
 ```
 > loadr
@@ -191,6 +219,8 @@ Bytes received: 0
 >
 ```
 
+#### Load
+
 # Physical System (Intel)
 
 Specs:
@@ -205,16 +235,16 @@ Specs:
 ### Linux (Debian 13.3.0)
 
 ```
-ian@intel:~/Code/Testing$ ./l_bench
+ian@debian-intel:~/Code/Benchmark$ ./l_bench
 Iterations: 1000000
 Average: 32.17 ns
-ian@intel:~/Code/Testing$ ./l_bench
+ian@debian-intel:~/Code/Benchmark$ ./l_bench
 Iterations: 1000000
 Average: 32.16 ns
-ian@intel:~/Code/Testing$ ./l_bench
+ian@debian-intel:~/Code/Benchmark$ ./l_bench
 Iterations: 1000000
 Average: 32.42 ns
-ian@intel:~/Code/Testing$
+ian@debian-intel:~/Code/Benchmark$
 ```
 
 ### BareMetal (2026.01)
@@ -238,23 +268,45 @@ Average: 31 ns
 
 ### Linux (Debian 13.3.0)
 
+#### No load
+
 ```
-ian@intel:~/Code/Testing$ sudo ./l_ethernet_bench enp1s0 -n 1000000
+root@debian-intel:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp1s0 -n 1000000
 Iterations: 1000000
 Average: 113.73 ns
 Bytes received: 0
-ian@intel:~/Code/Testing$ sudo ./l_ethernet_bench enp1s0 -n 1000000
+root@debian-intel:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp1s0 -n 1000000
 Iterations: 1000000
 Average: 113.67 ns
 Bytes received: 0
-ian@intel:~/Code/Testing$ sudo ./l_ethernet_bench enp1s0 -n 1000000
+root@debian-intel:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp1s0 -n 1000000
 Iterations: 1000000
 Average: 113.82 ns
 Bytes received: 0
-ian@intel:~/Code/Testing$
+root@debian-intel:/home/ian/Code/Benchmark$
+```
+
+#### Load
+
+```
+root@debian-intel:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp1s0 -n 1000000
+Iterations: 1000000
+Average: 146.13 ns
+Bytes received: 179830500
+root@debian-intel:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp1s0 -n 1000000
+Iterations: 1000000
+Average: 147.71 ns
+Bytes received: 181471500
+root@debian-intel:/home/ian/Code/Benchmark$ ./l_ethernet_bench enp1s0 -n 1000000
+Iterations: 1000000
+Average: 148.75 ns
+Bytes received: 182830500
+root@debian-intel:/home/ian/Code/Benchmark$
 ```
 
 ### BareMetal (2026.01)
+
+#### No load
 
 ```
 > loadr
@@ -273,6 +325,8 @@ Average: 1 ns
 Bytes received: 0
 >
 ```
+
+#### Load
 
 
 // EOF
