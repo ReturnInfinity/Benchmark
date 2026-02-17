@@ -119,18 +119,18 @@ Specs:
 
 ## l_bench / b_bench
 
-### Linux (Ubuntu 25.10)
+### Linux (Debian 13.3.0)
 
 ```
 ian@amd:~/Code/Testing$ ./l_bench
 Iterations: 1000000
-Average: 31.20 ns
+Average: 28.51 ns
 ian@amd:~/Code/Testing$ ./l_bench
 Iterations: 1000000
-Average: 31.20 ns
+Average: 27.99 ns
 ian@amd:~/Code/Testing$ ./l_bench
 Iterations: 1000000
-Average: 31.21 ns
+Average: 28.11 ns
 ian@amd:~/Code/Testing$
 ```
 
@@ -153,20 +153,20 @@ Average: 27 ns
 
 ## l_ethernet_bench / b_ethernet_bench
 
-### Linux (Ubuntu 25.10)
+### Linux (Debian 13.3.0)
 
 ```
 ian@amd:~/Code/Testing$ sudo ./l_ethernet_bench enp1s0 -n 1000000
 Iterations: 1000000
-Average: 389.97 ns
+Average: 187.04 ns
 Bytes received: 0
 ian@amd:~/Code/Testing$ sudo ./l_ethernet_bench enp1s0 -n 1000000
 Iterations: 1000000
-Average: 390.19 ns
+Average: 187.50 ns
 Bytes received: 0
 ian@amd:~/Code/Testing$ sudo ./l_ethernet_bench enp1s0 -n 1000000
 Iterations: 1000000
-Average: 390.24 ns
+Average: 187.28 ns
 Bytes received: 0
 ian@amd:~/Code/Testing$
 ```
@@ -202,18 +202,18 @@ Specs:
 
 ## l_bench / b_bench
 
-### Linux (Ubuntu 25.10)
+### Linux (Debian 13.3.0)
 
 ```
 ian@intel:~/Code/Testing$ ./l_bench
 Iterations: 1000000
-Average: 33.14 ns
+Average: 32.17 ns
 ian@intel:~/Code/Testing$ ./l_bench
 Iterations: 1000000
-Average: 32.01 ns
+Average: 32.16 ns
 ian@intel:~/Code/Testing$ ./l_bench
 Iterations: 1000000
-Average: 32.64 ns
+Average: 32.42 ns
 ian@intel:~/Code/Testing$
 ```
 
@@ -236,20 +236,20 @@ Average: 31 ns
 
 ## l_ethernet_bench / b_ethernet_bench
 
-### Linux (Ubuntu 25.10)
+### Linux (Debian 13.3.0)
 
 ```
 ian@intel:~/Code/Testing$ sudo ./l_ethernet_bench enp1s0 -n 1000000
 Iterations: 1000000
-Average: 126.76 ns
+Average: 113.73 ns
 Bytes received: 0
 ian@intel:~/Code/Testing$ sudo ./l_ethernet_bench enp1s0 -n 1000000
 Iterations: 1000000
-Average: 123.26 ns
+Average: 113.67 ns
 Bytes received: 0
 ian@intel:~/Code/Testing$ sudo ./l_ethernet_bench enp1s0 -n 1000000
 Iterations: 1000000
-Average: 124.14 ns
+Average: 113.82 ns
 Bytes received: 0
 ian@intel:~/Code/Testing$
 ```
