@@ -205,20 +205,38 @@ root@debian-amd:/home/ian/Code/Benchmark$
 Enter file number: 5
 > exec
 Iterations: 1000000
-Average: 1 ns
+Average: 3 ns
 Bytes received: 0
 > exec
 Iterations: 1000000
-Average: 2 ns
+Average: 3 ns
 Bytes received: 0
 > exec
 Iterations: 1000000
-Average: 1 ns
+Average: 3 ns
 Bytes received: 0
 >
 ```
 
 #### Load
+
+```
+> loadr
+Enter file number: 5
+> exec
+Iterations: 1000000
+Average: 4 ns
+Bytes received: 8650500
+> exec
+Iterations: 1000000
+Average: 4 ns
+Bytes received: 8598000
+> exec
+Iterations: 1000000
+Average: 4 ns
+Bytes received: 8581500
+>
+```
 
 # Physical System (Intel)
 
@@ -313,15 +331,15 @@ root@debian-intel:/home/ian/Code/Benchmark$
 Enter file number: 5
 > exec
 Iterations: 1000000
-Average: 1 ns
+Average: 3 ns
 Bytes received: 0
 > exec
 Iterations: 1000000
-Average: 1 ns
+Average: 3 ns
 Bytes received: 0
 > exec
 Iterations: 1000000
-Average: 1 ns
+Average: 3 ns
 Bytes received: 0
 >
 ```
@@ -333,16 +351,16 @@ Bytes received: 0
 Enter file number: 5
 > exec
 Iterations: 1000000
-Average: 3 ns
-Bytes received: 7459500
+Average: 4 ns
+Bytes received: 8181000
 > exec
 Iterations: 1000000
-Average: 3 ns
-Bytes received: 7468500
+Average: 4 ns
+Bytes received: 8188500
 > exec
 Iterations: 1000000
-Average: 3 ns
-Bytes received: 7462500
+Average: 4 ns
+Bytes received: 8184000
 >
 ```
 
