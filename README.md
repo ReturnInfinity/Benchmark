@@ -2,8 +2,9 @@ Benchmarking programs and results
 
 Apps in this repo:
 
-- `l_bench.c` / `b_bench.c` / `b_bench.asm` - Run `cpuid` 1000000 times. This should have similar results compared to running on Linux or BareMetal as `cpuid` is an "expensive" instruction.
-- `l_ethernet_bench.c` / `b_ethernet_bench.asm` - Poll the network 1000000 times. The Linux version is pinned to a single CPU core to prevent additional delays. This isn't needed in BareMetal.
+- `l_bench.c` / `b_bench.c` - Run `cpuid` 1000000 times. This should have similar results compared to running on Linux or BareMetal as `cpuid` is an "expensive" instruction.
+- `l_ethernet_bench.c` / `b_ethernet_bench.c` - Poll the network 1000000 times. The Linux version is pinned to a single CPU core to prevent additional delays. This isn't needed in BareMetal.
+- Assembly versions for BareMetal are in the assembly directory.
 
 For network load testing [netflood](https://github.com/IanSeyler/netflood) was used. Both physical systems were wired directly to a 5-port 10Gbit NICGIGA switch (Model S100-0500T).
 
@@ -93,6 +94,28 @@ root@debian-vm:/home/ian/Code/Benchmark$
 ### BareMetal (2026.01)
 
 ```qemu-system-x86_64 -machine q35 -name "BareMetal OS" -smp sockets=1,cpus=4 -cpu host -enable-kvm -m 256 -drive id=disk0,file="sys/baremetal_os.img",if=none,format=raw -device ide-hd,drive=disk0 -netdev socket,id=testnet1,connect=localhost:12345 -device virtio-net-pci,netdev=testnet1,mac=10:11:12:00:1A:F4```
+
+#### C
+
+```
+> load
+Enter file number: 5
+> exec
+Iterations: 1000000
+Average: 25 ns
+Bytes received: 0
+> exec
+Iterations: 1000000
+Average: 26 ns
+Bytes received: 0
+> exec
+Iterations: 1000000
+Average: 25 ns
+Bytes received: 0
+>
+```
+
+#### Assembly
 
 ```
 > load

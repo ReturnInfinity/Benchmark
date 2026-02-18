@@ -1,5 +1,7 @@
 #include "libBareMetal.h"
 
+#define INTERFACE 0
+
 u64 string_len(char* str)
 {
 	int len = 0;
@@ -22,7 +24,7 @@ void reverse(char* str)
 void int_to_string(u64 num, char* str)
 {
 	int i = 0;
-	do {
+	do{
 		str[i++] = num % 10 + '0';
 		num /= 10;
 	} while (num);
@@ -41,7 +43,8 @@ void print_u64(u64 num)
 int main()
 {
 	const int iterations = 1000000;
-	u64 start, end, total_ns, avg_ns;
+	u64 start, end, total_ns, avg_ns, recv_packet_len = 0;
+	unsigned char *buffer;
 
 	b_output("Iterations: ", 12);
 	print_u64(iterations);
@@ -52,23 +55,7 @@ int main()
 
 	for (int i = 0; i < iterations; i++)
 	{
-		//-------------------------
-		/* Code to benchmark */
-		//-------------------------
-		// Call a kernel function
-		// getpid();
-		//-------------------------
-		// __asm__ volatile ("nop");
-		//-------------------------
-		__asm__ volatile (
-			"xor %%eax, %%eax;"
-			"xor %%ecx, %%ecx;"
-			"cpuid"
-			: // output
-			: // input
-			: "%eax", "%ebx", "%ecx", "%edx" // clobbered registers
-		);
-		//-------------------------
+		recv_packet_len += b_net_rx((void**)&buffer, INTERFACE);
 	}
 
 	// Record end time
@@ -83,7 +70,7 @@ int main()
 	// Display results
 	b_output("Average: ", 9);
 	print_u64(avg_ns);
-	b_output (" ns", 3);
-
+	b_output (" ns\nBytes received: ", 20);
+	print_u64(recv_packet_len);
 	return 0;
 }
