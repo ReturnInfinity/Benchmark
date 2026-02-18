@@ -2,7 +2,7 @@ Benchmarking programs and results
 
 Apps in this repo:
 
-- `l_bench.c` / `b_bench.asm` - Run `cpuid` 1000000 times. This should have similar results compared to running on Linux or BareMetal as `cpuid` is an "expensive" instruction.
+- `l_bench.c` / `b_bench.c` / `b_bench.asm` - Run `cpuid` 1000000 times. This should have similar results compared to running on Linux or BareMetal as `cpuid` is an "expensive" instruction.
 - `l_ethernet_bench.c` / `b_ethernet_bench.asm` - Poll the network 1000000 times. The Linux version is pinned to a single CPU core to prevent additional delays. This isn't needed in BareMetal.
 
 For network load testing [netflood](https://github.com/IanSeyler/netflood) was used. Both physical systems were wired directly to a 5-port 10Gbit NICGIGA switch (Model S100-0500T).
@@ -50,13 +50,13 @@ ian@debian-vm:~/Code/Testing$
 Enter file number: 4
 > exec
 Iterations: 1000000
-Average: 2231 ns
+Average: 2205 ns
 > exec
 Iterations: 1000000
-Average: 2236 ns
+Average: 2201 ns
 > exec
 Iterations: 1000000
-Average: 2217 ns
+Average: 2204ns
 >
 ```
 
