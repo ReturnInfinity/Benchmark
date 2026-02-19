@@ -4,5 +4,4 @@ l_raytrace
 b_bench.app
 b_ethernet_bench.app
 b_raytrace.app
-libBareMetal.*
 *.o

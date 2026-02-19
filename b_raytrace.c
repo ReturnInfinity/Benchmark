@@ -262,7 +262,7 @@ int main() {
 	X = 1920; // Screen X
 	Y = 1080; // Screen Y
 
-	buffer = (u8 *)b_system(SCREEN_LFB_GET, 0, 0); // Frame buffer address from kernel
+	buffer = (u8 *)0x800000; // Frame buffer address from kernel
 
 	b_output("raytrace...", 11);
 
