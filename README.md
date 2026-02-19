@@ -21,44 +21,81 @@ Physical system for testing is as follows:
 - 128.0 GiB RAM
 - Ubuntu 25.10
 
+VMs were started as follows to simulate a VPS environment:
+
+Linux:
+
+```qemu-system-x86_64 -machine q35 -name "Debian 13.3.0" -smp sockets=1,cpus=1 -cpu host -enable-kvm -m 1024 -drive id=disk0,file=debian1330.img,if=none,format=raw -device virtio-scsi-pci -device scsi-hd,drive=disk0```
+
+BareMetal:
+
+```qemu-system-x86_64 -machine q35 -name "BareMetal OS" -smp sockets=1,cpus=1 -cpu host -enable-kvm -m 256 -drive id=disk0,file="sys/baremetal_os.img",if=none,format=raw -device ide-hd,drive=disk0```
+
 ## l_bench / b_bench
 
-Executing `cpuid` instruction in a loop.
+Executing `cpuid` instruction in a loop. Times between Linux and BareMetal should be similar.
 
 ### Linux (Debian 13.3.0)
 
-```qemu-system-x86_64 -machine q35 -name "Debian 13.3.0" -smp sockets=1,cpus=4 -cpu host -enable-kvm -m 4096 -drive id=disk0,file=debian1330.img,if=none,format=raw -device virtio-scsi-pci -device scsi-hd,drive=disk0```
-
 ```
-ian@debian-vm:~/Code/Testing$ ./l_bench
+ian@debian-vm:~/Code/Benchmark$ ./l_bench
 Iterations: 1000000
-Average: 2141.71 ns
-ian@debian-vm:~/Code/Testing$ ./l_bench
+Average: 2257.36 ns
+ian@debian-vm:~/Code/Benchmark$ ./l_bench
 Iterations: 1000000
-Average: 2143.63 ns
-ian@debian-vm:~/Code/Testing$ ./l_bench
+Average: 2246.52 ns
+ian@debian-vm:~/Code/Benchmark$ ./l_bench
 Iterations: 1000000
-Average: 2129.82 ns
-ian@debian-vm:~/Code/Testing$
+Average: 2251.37 ns
+ian@debian-vm:~/Code/Benchmark$
 ```
 
 ### BareMetal (2026.01)
-
-```qemu-system-x86_64 -machine q35 -name "BareMetal OS" -smp sockets=1,cpus=4 -cpu host -enable-kvm -m 256 -drive id=disk0,file="sys/baremetal_os.img",if=none,format=raw -device ide-hd,drive=disk0```
 
 ```
 > load
 Enter file number: 4
 > exec
 Iterations: 1000000
-Average: 2205 ns
+Average: 2223 ns
 > exec
 Iterations: 1000000
-Average: 2201 ns
+Average: 2190 ns
 > exec
 Iterations: 1000000
-Average: 2204ns
+Average: 2196 ns
 >
+```
+
+## l_raytrace / b_raytrace
+
+Raytrace app generating a 1920x1080x32bpp image in RAM.
+
+### Linux (Debian 13.3.0)
+
+```
+ian@debian-vm:~/Code/Benchmark$ ./l_raytrace
+raytrace...
+Time: 351 s
+ian@debian-vm:~/Code/Benchmark$ ./l_raytrace
+raytrace...
+Time: 350 s
+ian@debian-vm:~/Code/Benchmark$
+```
+
+### BareMetal (2026.01)
+
+```
+> load
+Enter file number: 4
+> exec
+raytrace...
+Time: 166 s
+> exec
+raytrace...
+Time: 166 s
+>
+
 ```
 
 ### Summary
