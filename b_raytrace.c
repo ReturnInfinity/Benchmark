@@ -280,7 +280,7 @@ int main() {
 	// Display results
 	b_output("\nTime: ", 7);
 	print_u64(total_s);
-	b_output (" ns", 3);
+	b_output (" s", 2);
 
 	return 0;
 }
