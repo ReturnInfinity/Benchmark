@@ -21,7 +21,7 @@ Physical system for testing is as follows:
 - 128.0 GiB RAM
 - Ubuntu 25.10
 
-VMs were started as follows to simulate a VPS environment:
+VMs were started as follows:
 
 Linux:
 
