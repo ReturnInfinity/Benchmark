@@ -95,8 +95,11 @@ Time: 323 s
 raytrace...
 Time: 323 s
 >
-
 ```
+
+Completed 8% faster than the Linux version.
+
+Note: This application ran correctly with only 16 MB of RAM assigned to the VM. Linux crashed on startup until it was given at least 192 MB of RAM.
 
 ### Summary
 
