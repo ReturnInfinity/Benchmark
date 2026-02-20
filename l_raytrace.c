@@ -201,7 +201,7 @@ vector S(vector o, vector d) {
 	return v_add(v_init(p, p, p), v_mul(S(h, r), .5));
 }
 
-int render()
+void render()
 {
 	vector g = v_norm(v_init(5, -28, 7)); // Camera direction (-/+ = Right/Left, ?/? , Down/Up)
 	vector a = v_mul(v_norm(v_cross(v_init(0, 0, -1), g)), .002); // Camera up vector
