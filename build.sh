@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BMCFLAGS="-c -m64 -nostdlib -nostartfiles -nodefaultlibs -ffreestanding -falign-functions=16 -fomit-frame-pointer -mno-red-zone -fno-builtin -fno-stack-protector -Os -ffunction-sections -fdata-sections"
+BMCFLAGS="-c -m64 -nostdlib -nostartfiles -nodefaultlibs -ffreestanding -falign-functions=16 -fomit-frame-pointer -mno-red-zone -fno-builtin -fno-stack-protector -ffunction-sections -fdata-sections"
 
 # Build all benchmarks
 if [ "$(uname)" != "Darwin" ]; then

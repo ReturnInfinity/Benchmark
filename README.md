@@ -90,10 +90,10 @@ ian@debian-vm:~/Code/Benchmark$
 Enter file number: 4
 > exec
 raytrace...
-Time: 166 s
+Time: 323 s
 > exec
 raytrace...
-Time: 166 s
+Time: 323 s
 >
 
 ```
