@@ -228,7 +228,8 @@ void render()
 	}
 }
 
-int main() {
+int main()
+{
 	struct timespec start, end;
 	long long total_s = 0;
 

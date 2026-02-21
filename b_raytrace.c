@@ -256,13 +256,15 @@ void render()
 	}
 }
 
-int main() {
-	u64 start, end, total_s;
+int main()
+{
+	u64 start, end;
+	u64 total_s = 0;
 
 	X = 1920; // Screen X
 	Y = 1080; // Screen Y
 
-	buffer = (u8 *)0x800000; // Frame buffer address from kernel
+	buffer = (u8 *)0x800000; // Memory address to store resulting image
 
 	b_output("raytrace...", 11);
 
