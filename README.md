@@ -3,6 +3,7 @@ Benchmarking programs and results
 Apps in this repo:
 
 - `l_bench.c` / `b_bench.c` - Run `cpuid` 1000000 times. This should have similar results compared to running on Linux or BareMetal as `cpuid` is an "expensive" instruction.
+- `l_raytrace.c` / `b_raytrace.c` - A cpu-bound raytracing program.
 - `l_ethernet_bench.c` / `b_ethernet_bench.c` - Poll the network 1000000 times. The Linux version is pinned to a single CPU core to prevent additional delays. This isn't needed in BareMetal.
 - Assembly versions for BareMetal are in the assembly directory.
 
@@ -67,6 +68,10 @@ Average: 2196 ns
 >
 ```
 
+### Results
+
+Execution time between BareMetal and Linux was similar as expected.
+
 ## l_raytrace / b_raytrace
 
 Raytrace app generating a 1920x1080x32bpp image in RAM.
@@ -97,13 +102,11 @@ Time: 323 s
 >
 ```
 
-Completed 8% faster than the Linux version.
+### Results
 
-Note: This application ran correctly with only 16 MB of RAM assigned to the VM. Linux crashed on startup until it was given at least 192 MB of RAM.
+The raytrace app executed 8% faster on BareMetal compared to Linux.
 
-### Summary
-
-This verified that the benchmarking tool is working correctly on both Linux and BareMetal OS.
+Note: This application ran correctly on BareMetal with only 16 MB of RAM assigned to the VM. Linux crashed on startup until it was given at least 192 MB of RAM. Alpine Linux was able to run the raytrace app with only 128 MB of RAM assigned to the VM but added a couple seconds to the execution time.
 
 ## l_ethernet_bench / b_ethernet_bench
 
@@ -175,12 +178,19 @@ Bytes received: 0
 >
 ```
 
+### Results
+
+Linux imposes significant overhead compared to BareMetal when reading from the network. Calling the BareMetal kernel from C also imposes some overhead - likely due to saving/restoring state.
+
+BareMetal (Assembly) = ~8.5× faster than Linux
+BareMetal (C) = ~4.4× faster than Linux
+
 # Physical System (AMD)
 
 Specs:
 - [AMD Ryzen 7 7700X](https://www.amd.com/en/products/processors/desktops/ryzen/7000-series/amd-ryzen-7-7700x.html) - Zen 4 (Raphael) - 8 cores, base 4.50GHz, boost 5.40GHz
 - [ASUS PRIME B650M-A II](https://www.asus.com/motherboards-components/motherboards/csm/prime-b650m-a-ii-csm/)
-- 16GiB RAM (1x 16GiB DDR5) - Max 128GiB
+- 16GiB RAM (1x 16GiB DDR5)
 - 240GB SATA (Kingston)
 - Intel X540-T1 10Gbit network card (NICGIGA)
 - Internal network adaptor disabled in BIOS
@@ -218,6 +228,10 @@ Iterations: 1000000
 Average: 27 ns
 >
 ```
+
+### Results
+
+Execution time between BareMetal and Linux was similar as expected.
 
 ## l_ethernet_bench / b_ethernet_bench
 
@@ -301,12 +315,19 @@ Bytes received: 8581500
 >
 ```
 
+### Results
+
+Linux imposes significant overhead compared to BareMetal when reading from the network.
+
+BareMetal (no load)= ~62.3× faster than Linux
+BareMetal (load)= ~65.5× faster than Linux
+
 # Physical System (Intel)
 
 Specs:
 - [Intel® Core™ i5-12400](https://ark.intel.com/content/www/us/en/ark/products/134586/intel-core-i5-12400-processor-18m-cache-up-to-4-40-ghz.html) - Alder Lake - 6 cores, base 2.50GHz, boost 4.40GHz
 - [ASUS PRIME B760M-A AX](https://www.asus.com/us/motherboards-components/motherboards/prime/prime-b760m-a-ax/)
-- 16GiB RAM (1x 16GiB DDR5) - Max 128GiB
+- 16GiB RAM (1x 16GiB DDR5)
 - 128GB NVMe (Patriot)
 - Intel X540-T1 10Gbit network card (Beijing Sinead)
 - Internal network adaptors disabled in BIOS
@@ -344,6 +365,10 @@ Iterations: 1000000
 Average: 31 ns
 >
 ```
+
+### Results
+
+Execution time between BareMetal and Linux was similar as expected.
 
 ## l_ethernet_bench / b_ethernet_bench
 
@@ -426,5 +451,12 @@ Average: 4 ns
 Bytes received: 8184000
 >
 ```
+
+### Results
+
+Linux imposes significant overhead compared to BareMetal when reading from the network.
+
+BareMetal (no load)= ~37.7× faster than Linux
+BareMetal (load)= ~36.8× faster than Linux
 
 // EOF
