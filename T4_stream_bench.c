@@ -45,7 +45,7 @@
 # include <math.h>
 # include <float.h>
 # include <limits.h>
-# include <sys/time.h>
+# include <time.h>
 
 /*-----------------------------------------------------------------------
  * INSTRUCTIONS:
@@ -412,19 +412,17 @@ checktick()
 
 
 
-/* A gettimeofday routine to give access to the wall
+/* A clock_gettime routine to give access to the monotonic
    clock timer on most UNIX-like systems.  */
 
-#include <sys/time.h>
+#include <time.h>
 
 double mysecond()
 {
-        struct timeval tp;
-        struct timezone tzp;
-        int i;
+        struct timespec tp;
 
-        i = gettimeofday(&tp,&tzp);
-        return ( (double) tp.tv_sec + (double) tp.tv_usec * 1.e-6 );
+        clock_gettime(CLOCK_MONOTONIC, &tp);
+        return ( (double) tp.tv_sec + (double) tp.tv_nsec * 1.e-9 );
 }
 
 #ifndef abs
