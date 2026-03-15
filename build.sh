@@ -11,6 +11,7 @@ if [ "$(uname)" != "Darwin" ]; then
 	gcc -o T2_latency T2_latency.c
 	gcc -o T3_latency T3_latency.c
 	gcc -o T4_stream_bench T4_stream_bench.c
+	gcc -O2 -o mem_benchmark mem_benchmark.c
 	gcc $BMCFLAGS -o crt0.o crt0.c
 	gcc $BMCFLAGS -o b_bench.o b_bench.c
 	gcc $BMCFLAGS -o b_ethernet_bench.o b_ethernet_bench.c
