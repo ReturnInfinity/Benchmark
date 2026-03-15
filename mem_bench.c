@@ -23,7 +23,7 @@
 /* ── tunables ──────────────────────────────────────────────────────────── */
 #define START_SIZE_KB   16          /* first dataset: 16 KB                */
 #define END_SIZE_MB     128         /* last  dataset: 128 MB               */
-#define REPEAT_SECONDS  0.5         /* run each test for at least 0.5 s    */
+#define REPEAT_SECONDS  2         /* run each test for at least 2 s    */
 /* ──────────────────────────────────────────────────────────────────────── */
 
 /* Portable high-resolution timer → seconds */
@@ -131,9 +131,9 @@ static void bench_size(size_t bytes)
     /* format dataset size */
     char size_str[16];
     if (bytes >= 1024 * 1024)
-        snprintf(size_str, sizeof(size_str), "%4zu MiB", bytes / (1024 * 1024));
+        snprintf(size_str, sizeof(size_str), "%4u MiB", (unsigned int)(bytes / (1024 * 1024)));
     else
-        snprintf(size_str, sizeof(size_str), "%4zu KiB", bytes / 1024);
+        snprintf(size_str, sizeof(size_str), "%4u KiB", (unsigned int)(bytes / 1024));
 
     printf("│ %-8s │ %10.0f │ %10.0f │ %10.0f │ %10.0f │\n",
            size_str, write_bw, read_bw, copy_bw, rand_bw);
