@@ -3,6 +3,8 @@ extern int main();
 extern char __bss_start;
 extern char __bss_stop;
 
+static void zero_bss(void);
+
 __attribute__((naked)) void _start(void)
 {
 	__asm__ volatile (
