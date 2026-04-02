@@ -5,6 +5,8 @@ Apps in this repo:
 - `l_bench.c` / `b_bench.c` - Run `cpuid` 1000000 times. This should have similar results compared to running on Linux or BareMetal as `cpuid` is an "expensive" instruction.
 - `l_raytrace.c` / `b_raytrace.c` - A cpu-bound raytracing program.
 - `l_ethernet_bench.c` / `b_ethernet_bench.c` - Poll the network 1000000 times. The Linux version is pinned to a single CPU core to prevent additional delays. This isn't needed in BareMetal.
+- `T2_latency.c` - Latency Test (Same code for Linux and BareMetal)
+- `T3_latency.c` - Latency Test (Same code for Linux and BareMetal)
 - Assembly versions for BareMetal are in the assembly directory.
 
 For network load testing [netflood](https://github.com/IanSeyler/netflood) was used. Both physical systems were wired directly to a 5-port 10Gbit NICGIGA switch (Model S100-0500T).
@@ -184,6 +186,48 @@ Linux imposes significant overhead compared to BareMetal when reading from the n
 
 BareMetal (Assembly) = ~8.5× faster than Linux
 BareMetal (C) = ~4.4× faster than Linux
+
+## T2_latency.c
+
+### Linux (Debian 13.3.0)
+
+```
+Average MSPT: 10.19 ms
+```
+
+### BareMetal (2026.01)
+
+```
+Average MSPT: 10.00 ms
+```
+
+## T3_latency.c
+
+### Linux (Debian 13.3.0)
+
+```
+Benchmarking 10000 ticks at 15.625ms target...
+
+--- Results ---
+P50 (Median): 15.753 ms
+P90:         16.119 ms
+P99:         16.335 ms (Worst 1 in 100)
+P99.9:       16.760 ms (Worst 1 in 1000)
+Max:         17.236 ms
+```
+
+### BareMetal (2026.01)
+
+```
+Benchmarking 10000 ticks at 15.625ms target...
+
+--- Results ---
+P50 (Median): 15.625 ms
+P90:         15.625 ms
+P99:         15.626 ms (Worst 1 in 100)
+P99.9:       15.631 ms (Worst 1 in 1000)
+Max:         15.646 ms
+```
 
 # Physical System (AMD)
 
