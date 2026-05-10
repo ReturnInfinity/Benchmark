@@ -185,6 +185,7 @@ Bytes received: 0
 Linux imposes significant overhead compared to BareMetal when reading from the network. Calling the BareMetal kernel from C also imposes some overhead - likely due to saving/restoring state.
 
 BareMetal (Assembly) = ~8.5× faster than Linux
+
 BareMetal (C) = ~4.4× faster than Linux
 
 ## T2_latency.c
@@ -364,6 +365,7 @@ Bytes received: 8581500
 Linux imposes significant overhead compared to BareMetal when reading from the network.
 
 BareMetal (no load)= ~62.3× faster than Linux
+
 BareMetal (load)= ~65.5× faster than Linux
 
 # Physical System (Intel)
