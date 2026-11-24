@@ -34,6 +34,20 @@ BareMetal:
 
 ```qemu-system-x86_64 -machine q35 -name "BareMetal OS" -smp sockets=1,cpus=1 -cpu host -enable-kvm -m 256 -drive id=disk0,file="sys/baremetal_os.img",if=none,format=raw -device ide-hd,drive=disk0```
 
+## startup
+
+### Linux (Debian 13.3.0)
+
+~3 seconds - measured via `dmesg` output.
+
+### BareMetal-firecracker (2026.01)
+
+<1ms
+
+Init: ~100µs from Firecracker handoff to kernel start.
+BareMetal: ~700µs with network and disk enabled. ~500µs with only network enabled.
+
+
 ## l_bench / b_bench
 
 Executing `cpuid` instruction in a loop. Times between Linux and BareMetal should be similar.
